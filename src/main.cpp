@@ -9,6 +9,7 @@ uint8_t J12_buffer[5] = { 0 };
 uint8_t J345_buffer[7] = { 0 };
 int16_t joint_buffer[5] = { 0 };
 double Joints[5];
+double msg_test_angle=0.5; // rad
 
 void clear_serial_buffer(int iterations)
 {
@@ -28,6 +29,16 @@ float getSerialfloat(String str)
   }
   float temp=Serial.parseFloat();
   return temp;
+}
+void blink_led(int times, unsigned long int dt)
+{
+  for(int i=0;i<times;i++)
+  {
+    digitalWrite(13,HIGH);
+    delay(dt);
+    digitalWrite(13,LOW);
+    delay(dt);
+  }
 }
 void get_serial_joints(double val[0])
 {
@@ -87,10 +98,22 @@ void serial_test_loop()
   send_joint_positions();
   Serial.println("positions sent\n");
 }
+void send_message_test_loop()
+{
+  msg_test_angle*=-1;
+  blink_led(2,500);
+  for(int i=0;i<5;i++)
+  {
+    Joints[i]=msg_test_angle;
+  }
+  send_joint_positions();
+  delay(1000);
+}
 
 
 void setup() 
 {
+  pinMode(13,OUTPUT);
   if(DEBUG)
   {
     Serial.begin(115200);
@@ -101,5 +124,5 @@ void setup()
 
 void loop() 
 {
-  serial_test_loop();
+  send_message_test_loop();
 }
