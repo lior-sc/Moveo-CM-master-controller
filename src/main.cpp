@@ -80,12 +80,12 @@ void send_joint_positions()
   }
 
   //send buffers via I2C
-  Wire.beginTransmission(0x02);
-  Wire.write(J12_buffer, 4);
+  Wire.beginTransmission(2);
+  Wire.write(J12_buffer, 5);
   Wire.endTransmission();
 
-  Wire.beginTransmission(0x03);
-  Wire.write(J345_buffer, 6);
+  Wire.beginTransmission(3);
+  Wire.write(J345_buffer, 7);
   Wire.endTransmission();
 }
 
@@ -124,5 +124,5 @@ void setup()
 
 void loop() 
 {
-  send_message_test_loop();
+  serial_test_loop();
 }
